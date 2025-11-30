@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Contact the Site Creator</h1>
+        <p class="tagline">I'd love to hear from you!</p>
+    </header>
+
+    <!-- Nav bar -->
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="add_expense.html">Add Expense</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="contact.html" class="active">Contact</a>
+        </div>
+    </div>
+
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <p>Have questions or suggestions for the site? Please reach out!</p>
+        
+        <!-- Contact form  -->
+        <form action="https://api.web3forms.com/submit" class="contact-form" method="POST">
+            <!-- API access  -->
+            <input type="hidden" name="access_key" value="106c6bb1-6757-4d7f-b1d6-9a7eaaaff4d6">
+            <!-- Name -->
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+            <!-- Email -->
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Your Email" required>
+            <!-- Message  -->
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+            <!-- Submit  -->
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+        <footer>
+        &copy; Elisabeth Kollrack 2025
+    </footer>
+</body>
+</html>

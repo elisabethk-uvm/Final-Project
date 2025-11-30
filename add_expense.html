@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker | Add Expense</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Add New Expense</h1>
+        <p class="tagline">Keep track of your spending by adding new expenses</p>
+    </header>
+
+    <!-- Nav bar -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="add_expense.html" class="active">Add Expense</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Form for adding new expenses -->
+        <section id="expense-form" class="form-section">
+            <h2>Add Expense Details</h2>
+
+            <form id="add-expense-form">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
+
+                <!-- Amount input -->
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" step="0.01" required>
+
+                <!-- Category dropdown  -->
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="Dining Out">Dining Out</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Housing">Housing/Rent</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Education">Education</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <!-- Date -->
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+
+                <button type="submit" class="btn">Add Expense</button>
+            </form>
+        </section>
+
+        <!-- Confirmation message -->
+        <section id="confirmation" class="confirmation hidden">
+            <p>Expense added successfully!</p>
+        </section>
+    </main>
+
+    <footer>
+        &copy; Elisabeth Kollrack 2025
+    </footer>
+
+    <script>
+        const form = document.getElementById('add-expense-form');
+        const confirmationBox = document.getElementById('confirmation');
+
+        // Event listener for form submission
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Form input values
+            const description = document.getElementById('description').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            const category = document.getElementById('category').value;
+            const date = document.getElementById('date').value;
+
+            // Create new expense object from form data
+            const newExpense = { description, amount, category, date };
+
+            // Get existing expenses from localStorage or initialize empty array
+            const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+            // Add new expense to the array
+            expenses.push(newExpense);
+            // Save updated expenses array back to localStorage
+            localStorage.setItem('expenses', JSON.stringify(expenses));
+
+            // Show success confirmation message
+            confirmationBox.textContent = 'Expense added successfully!';
+            confirmationBox.classList.remove('hidden');
+
+            // Hide confirmation message after 3 seconds
+            setTimeout(() => {
+                confirmationBox.classList.add('hidden');
+            }, 3000);
+
+            form.reset();
+        });
+    </script>
+</body>
+</html>

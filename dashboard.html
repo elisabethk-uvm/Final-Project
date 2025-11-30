@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker | Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Dashboard</h1>
+        <p class="tagline">Your expense overview at a glance</p>
+    </header>
+
+    <!-- Nav bar -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="add_expense.html">Add Expense</a>
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Summary cards showing totals (will update with localStorage)-->
+        <section id="summary-section" class="summary-dashboard">
+            <h2>Summary</h2>
+
+            <div class="summary-grid">
+                <div class="card">
+                    <h3>Total Spent</h3>
+                    <p id="total-spent">$0.00</p>
+                </div>
+
+                <div class="card">
+                    <h3>Highest Category</h3>
+                    <p id="highest-category">None</p>
+                </div>
+
+                <div class="card">
+                    <h3>Total Entries</h3>
+                    <p id="total-entries">0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chart.js bar chart area -->
+        <section id="chart-section">
+            <h2>Expenses by Category</h2>
+            <canvas id="categoryChart" width="400" height="200"></canvas>
+        </section>
+
+        <!-- Table of all expenses -->
+        <section class="table-section">
+            <h2>All Expenses</h2>
+            <table id="expense-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows inserted with JS -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        &copy; Elisabeth Kollrack 2025
+    </footer>
+
+    <script>
+        // Load stored expenses from localStorage
+        let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+
+        // Main dashboard update function
+        function updateDashboard() {
+
+            // Sort expenses
+            expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Update summary
+            let total = 0;
+            for (let i = 0; i < expenses.length; i++) {
+                total = total + Number(expenses[i].amount);
+            }
+            document.getElementById('total-spent').textContent = "$" + total.toFixed(2);
+            document.getElementById('total-entries').textContent = expenses.length;
+
+            // Add up total spent per category
+            const categories = {};
+            for (let i = 0; i < expenses.length; i++) {
+                const exp = expenses[i];
+                const currentAmount = categories[exp.category] || 0;
+                categories[exp.category] = currentAmount + Number(exp.amount);
+            }
+
+            // Determine which category has the highest spending
+            let highestCategory = "None";
+            let highestAmount = 0;
+            const categoryKeys = Object.keys(categories);
+            for (let i = 0; i < categoryKeys.length; i++) {
+                const category = categoryKeys[i];
+                const amount = categories[category];
+                if (amount > highestAmount) {
+                    highestAmount = amount;
+                    highestCategory = category;
+                }
+            }
+            document.getElementById('highest-category').textContent = highestCategory;
+
+            // Populate the expenses table 
+            const tableBody = document.querySelector('#expense-table tbody');
+
+            // Clear old rows
+            tableBody.innerHTML = '';
+
+            // Show a placeholder if no expenses exist
+            if (expenses.length === 0) {
+                tableBody.innerHTML = "<tr><td>No expenses added yet</td></tr>";
+                return;
+            }
+
+            // Create one <tr> per expense
+            for (let i = 0; i < expenses.length; i++) {
+                const expense = expenses[i];
+                const row = document.createElement('tr');
+
+                row.innerHTML = 
+                    '<td>' + expense.description + '</td>' +
+                    '<td>$' + Number(expense.amount).toFixed(2) + '</td>' +
+                    '<td>' + expense.category + '</td>' +
+                    '<td>' + expense.date + '</td>' +
+                    '<td><button class="delete-btn" data-index="' + i + '">Delete</button></td>';
+
+                tableBody.appendChild(row);
+            }
+            deleteListeners();
+        }
+
+        // Add delete click listener
+        function deleteListeners() {
+            const buttons = document.querySelectorAll('.delete-btn');
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener('click', function() {
+                    const idx = this.getAttribute('data-index');
+
+                    // Remove selected expense from array
+                    expenses.splice(idx, 1);
+
+                    // Update stored data
+                    localStorage.setItem('expenses', JSON.stringify(expenses));
+
+                    // Refresh dashboard and chart
+                    updateDashboard();
+                    createCategoryChart();
+                });
+            }
+        }
+
+        // Creates the bar chart showing category totals
+        function createCategoryChart() {
+
+            // Build totals per category
+            const categories = {};
+            for (let i = 0; i < expenses.length; i++) {
+                const exp = expenses[i];
+                const currentAmount = categories[exp.category] || 0;
+                categories[exp.category] = currentAmount + Number(exp.amount);
+            }
+
+            // Access the canvas element
+            const chart = document.getElementById('categoryChart').getContext('2d');
+
+            // Colors for bars
+            const colors = [
+                '#4CAF50', // Green
+                '#2196F3', // Blue  
+                '#FF9800', // Orange
+                '#F44336', // Red
+                '#9C27B0'  // Purple
+            ];
+
+            // If a chart already exists, remove it
+            if (window.categoryChartInstance) {
+                window.categoryChartInstance.destroy();
+            }
+            
+            // Create background colors array
+            const backgroundColors = [];
+            for (let i = 0; i < Object.keys(categories).length; i++) {
+                backgroundColors.push(colors[i % colors.length]);
+            }
+
+            // Create the bar chart
+            window.categoryChartInstance = new Chart(chart, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(categories),     // Category names
+                    datasets: [{
+                        data: Object.values(categories), // Amounts
+                        backgroundColor: backgroundColors,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: { display: false }, // No legend
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Amount ($)' // Y-axis label
+                            },
+                            ticks: {
+                                beginAtZero: true // Start at $0
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+        updateDashboard();
+        createCategoryChart();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,349 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #2e2e2e;
+    background: #e8f5e9;
+}
+
+/* Main */
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Sections */
+section {
+    margin-bottom: 40px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    background-color: #2e7d32;
+    color: white;
+    padding: 35px 0 25px 0;
+}
+
+/* Nav Bar */
+.navbar {
+    background-color: #81c784;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 10px 25px;
+    text-align: center;
+    color: #1b5e20;
+    text-decoration: none;
+    background-color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: 0.2s ease-in-out;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background-color: #1b5e20;
+    color: white;
+}
+
+/* Summary Card */
+#summary-card {
+    background-color: #c8e6c9;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+#summary-card .btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #2e7d32;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+#summary-card .btn:hover {
+    background-color: #4caf50;
+}
+
+.confirmation {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #c8e6c9;
+    color: #1b5e20;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Hides the element when added */
+.hidden {
+    display: none;
+}
+
+
+/* Features */
+#features ul {
+    list-style-type: disc;
+    margin-left: 40px;
+}
+
+/* Quote */
+#quote {
+    text-align: center;
+    font-style: italic;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #81c784;
+    color: #1b5e20;
+    margin-top: 40px;
+    font-weight: bold;
+}
+
+
+/* Table Section */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #a5d6a7;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #c8e6c9;
+}
+
+/* Chart Section */
+#chart-section {
+    text-align: center;
+    padding: 20px;
+}
+
+canvas {
+    max-width: 100%;
+}
+
+/* Form Section (Add Expense) */
+.form-section {
+    background-color: #f1f8e9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.form-section input,
+.form-section select,
+.form-section button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+button.btn {
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button.btn:hover {
+    background-color: #4caf50;
+}
+
+/* Confirmation Box */
+.confirmation {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #c8e6c9;
+    color: #1b5e20;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #81c784;
+    color: #1b5e20;
+    margin-top: 40px;
+    font-weight: bold;
+}
+
+/* Contact Section */
+#contact {
+    padding: 50px 20px;
+    background-color: #c8e6c9;
+    text-align: center;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 40px auto;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+#contact h2 {
+    color: #2e7d32;
+    border-left: 5px solid #66bb6a;
+    padding-left: 10px;
+    font-size: 1.8em;
+    margin-top: -20px;
+    text-align: left;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #a5d6a7;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    background: white;
+}
+
+.contact-form button {
+    padding: 12px;
+    background-color: #2e7d32;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.contact-form button:hover {
+    background-color: #4caf50;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    /* Reduce main and section padding */
+    main {
+        padding: 10px;
+    }
+    section {
+        margin-bottom: 25px;
+        padding: 0 5px;
+    }
+
+    /* Header */
+    header {
+        padding: 25px 10px 15px 10px;
+    }
+
+    /* Navbar */
+    .navbar {
+        padding: 10px 20px;
+    }
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+    .nav-links a {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+
+    /* Summary Card */
+    #summary-card {
+        max-width: 100%;
+        padding: 15px;
+    }
+    #summary-card .btn {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+
+    /* Tables */
+    table {
+        font-size: 0.9em;
+    }
+    th, td {
+        padding: 8px;
+    }
+
+    /* Chart Section */
+    #chart-section {
+        padding: 10px;
+    }
+
+    /* Form Section */
+    .form-section {
+        padding: 15px;
+    }
+    .form-section input,
+    .form-section select,
+    .form-section button {
+        margin-top: 8px;
+        font-size: 0.95em;
+    }
+
+    /* Contact Section */
+    #contact {
+        padding: 30px 15px;
+    }
+    #contact h2 {
+        font-size: 1.5em;
+    }
+    .contact-form input,
+    .contact-form textarea {
+        font-size: 0.95em;
+    }
+    .contact-form button {
+        font-size: 1em;
+        padding: 10px;
+    }
+
+    /* Quote */
+    #quote {
+        font-size: 0.95em;
+        padding: 0 10px;
+    }
+}
+
+

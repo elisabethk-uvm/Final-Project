@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta-name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker | Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Expense Tracker</h1>
+        <p class="tagline">Track your expenses and manage your budget effectively</p>
+    </header>
+
+    <!-- Nav bar -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="add_expense.html">Add Expense</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Introduction section -->
+        <article class="intro">
+            <h2>Welcome to my Budget Tracker!</h2>
+            <p>
+                This web application allows you to track your expenses by adding new entries,
+                viewing a summary of your total spending, and managing your budget effectively over time.
+            </p>
+        </article>
+
+        <!-- Monthly summary -->
+        <section id="summary">
+            <h2 id="summary-title">Monthly Summary</h2>
+            <div id="summary-card">
+                <p>
+                    <strong>Total Expenses for <span id="current-month">...</span>:</strong>
+                    <span id="monthly-total">$0.00</span>
+                </p>
+                <p>
+                    <strong>Largest Category:</strong>
+                    <span id="largest-category">None</span>
+                </p>
+                <a href="dashboard.html" class="btn">View Dashboard</a>
+            </div>
+        </section>
+
+        <!-- Features list -->
+        <section id="features">
+            <h2>Features</h2>
+            <ul>
+                <li>Add and categorize expenses</li>
+                <li>Auto-saved data with localStorage</li>
+                <li>Interactive dashboard with summaries</li>
+                <li>Responsive design for mobile and desktop</li>
+            </ul>
+        </section>
+        <section id="quote">
+            <blockquote>
+                <p>
+                    "Do not save what is left after spending, but spend what is left after saving."
+                </p>
+                <cite>- Warren Buffett</cite>
+            </blockquote>
+        </section>
+    </main>
+    <footer>
+        &copy; Elisabeth Kollrack 2025
+    </footer>
+    <script>
+        function updateHomeSummary() {
+            // Retrieve expenses from localStorage
+            const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    
+            // Get current date information
+            const now = new Date();
+            const monthNames = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            const currentMonthName = monthNames[now.getMonth()];
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+    
+            // Update month label
+            document.getElementById("current-month").textContent = currentMonthName + " " + currentYear;
+
+            // Filter expenses belonging to the current month/year
+            const monthlyExpenses = [];
+            for (let i = 0; i < expenses.length; i++) {
+                const exp = expenses[i];
+                const date = new Date(exp.date);
+                if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
+                    monthlyExpenses.push(exp);
+                }
+            }
+    
+            // Calculate the total month spending
+            let total = 0;
+            for (let i = 0; i < monthlyExpenses.length; i++) {
+                total += Number(monthlyExpenses[i].amount);
+            }
+            document.getElementById("monthly-total").textContent = "$" + total.toFixed(2);
+    
+            // Calculate total spending for each category
+            const categories = {};
+            for (let i = 0; i < monthlyExpenses.length; i++) {
+                const exp = monthlyExpenses[i];
+                const category = exp.category;
+                const amount = Number(exp.amount);
+                // Add to the total for this category
+                categories[category] = (categories[category] || 0) + amount;
+            }
+
+    
+            // Determine which category has the highest spending
+            let largest = "None";
+            let maxAmount = 0;
+
+            for (const category in categories) {
+                if (categories[category] > maxAmount) {
+                    maxAmount = categories[category];
+                    largest = category;
+                }
+            }
+            // Display largest category
+            document.getElementById("largest-category").textContent = largest;
+        }
+        updateHomeSummary();
+    </script>
+
+</body>
+</html>
